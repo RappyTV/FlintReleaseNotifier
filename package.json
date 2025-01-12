@@ -1,5 +1,5 @@
 {
-  "name": "filechangewebhook",
+  "name": "flintreleasenotifier",
   "version": "1.0.0",
   "module": "src/index.ts",
   "type": "module",
