@@ -6,10 +6,14 @@ To install dependencies:
 bun install
 ```
 
+To configure
+
+```bash
+cp .env.example .env # And edit the file of course
+```
+
 To run:
 
 ```bash
 bun start
 ```
-
-This project was created using `bun init` in bun v1.1.42. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
