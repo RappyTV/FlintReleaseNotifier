@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "module": "src/index.ts",
   "type": "module",
+  "license": "MIT",
   "scripts": {
     "dev": "bun --watch src/index.ts",
     "start": "bun src/index.ts"
