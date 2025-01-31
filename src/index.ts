@@ -26,8 +26,13 @@ async function getModVersions(modifications: string[]): Promise<{ [key: string]:
 async function getModChangelog(modification: string): Promise<string[]> {
     return new Promise(async (resolve, reject) => {
         try {
-            const result = await axios.get(`https://flintmc.net/api/client-store/get-modification-changelogs/${modification}`);
+            const result = await axios.get(`https://flintmc.net/api/client-store/get-modification-changelogs/${modification}?cache=${Date.now()}`, { 
+                headers: {
+                    'User-Agent': 'FlintReleaseNotifier: https://github.com/RappyTV/FlintReleaseNotifier; Contact: contact@rappytv.com'
+                }
+            });
             const changelog = result.data as AddonChangeLog;
+            console.log(result.headers);
     
             resolve(changelog.map((item) => item.release));
         } catch(err) {
