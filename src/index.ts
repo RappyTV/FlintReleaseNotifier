@@ -32,7 +32,6 @@ async function getModChangelog(modification: string): Promise<string[]> {
                 }
             });
             const changelog = result.data as AddonChangeLog;
-            console.log(result.headers);
     
             resolve(changelog.map((item) => item.release));
         } catch(err) {
