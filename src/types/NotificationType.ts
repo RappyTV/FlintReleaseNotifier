@@ -1,4 +1,5 @@
 export enum NotificationType {
     Released,
-    Approved
+    Approved,
+    Both
 }

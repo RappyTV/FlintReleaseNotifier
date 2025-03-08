@@ -44,8 +44,8 @@ function sendWebhook(modification: string, type: NotificationType, version: stri
     if(config.webhook.url.trim().length == 0) return;
     const embed = {
         color: 2463422,
-        title: type == NotificationType.Released ? 'New release' : 'New version approved',
-        description: `The version \`v${version}\` of \`${modification}\` just got ${NotificationType[type].toLowerCase()}!`
+        title: type == NotificationType.Both ? 'New approved release' : type == NotificationType.Released ? 'New release' : 'Release approved',
+        description: `The version \`v${version}\` of \`${modification}\` just got ${type == NotificationType.Both ? 'released and approved' : NotificationType[type].toLowerCase()}!`
     }
 
     axios.post(config.webhook.url, {
@@ -84,19 +84,19 @@ async function checkForUpdates() {
         }
         const isReleased = latestVersion == releasedVersion;
         if(!await cacheFile.exists()) {
-            Logger.info(`${mod} is not cached yet. Creating...`)
+            Logger.info(`${mod} is not cached yet. Creating...`);
             Bun.write(cacheFile, JSON.stringify({ latestVersion, released: isReleased }));
             Logger.info(`${mod} was cached!`);
             continue;
         } else {
             const cache = JSON.parse(await cacheFile.text()) as { latestVersion: string, released: boolean };
             if(cache.latestVersion != latestVersion) {
-                Logger.info(`${mod} has an update!`);
+                Logger.info(isReleased ? `${mod} has an update which got released instantly!` : `${mod} has an update!`);
                 cache.latestVersion = latestVersion;
                 cache.released = isReleased;
                 Bun.write(cacheFile, JSON.stringify(cache));
 
-                sendWebhook(mod, NotificationType.Released, latestVersion);
+                sendWebhook(mod, isReleased ? NotificationType.Both : NotificationType.Released, latestVersion);
             } else if(!cache.released && isReleased) {
                 Logger.info(`${mod} has been released!`);
                 cache.released = true;
